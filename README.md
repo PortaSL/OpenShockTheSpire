@@ -38,7 +38,7 @@ In an immense act of piety, you will also be granted a Safeword at the start of 
 
 - 2.3) Edit the file with your PiShock Username, API code, and your Sharecode for this play session (For your Sharecode, use just the code, not the full link). If you have tweaked with the Slay The Spire official Twitch integration before, this file works in similar fashion to 'twitchconfig.txt'. A properly configured file should look similar to this:
 
-```TOML
+```
 username=puppy73
 apikey=5c678926-d19e-4f86-42ad-21f5a76126db
 sharecode=17519CD8GAP
