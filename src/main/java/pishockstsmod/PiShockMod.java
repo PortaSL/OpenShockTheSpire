@@ -306,7 +306,6 @@ public class PiShockMod implements
 
     @Override
     public void receivePostDeath() {
-        //TODO: Trigger pishock here too!
         if(!GameOverScreen.isVictory) {
             triggerPiShockCollar(MAXIMUM_PIZAP_DAMAGE, MAXIMUM_PIZAP_LENGTH);
         }
@@ -365,7 +364,6 @@ public class PiShockMod implements
             while (line != null) {
                 if(!line.isEmpty()){
                     if(line.charAt(0)!= '#' && line.charAt(0)!= '['){
-                        //logger.info(line);
                         String[] splitline = line.split("=");
 
                         for(String l : splitline) {
