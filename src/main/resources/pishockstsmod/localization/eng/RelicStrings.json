@@ -1,0 +1,16 @@
+{
+  "${modID}:MyRelic": {
+    "NAME": "My relic",
+    "FLAVOR": "Default Relic.",
+    "DESCRIPTIONS": [
+      "Description."
+    ]
+  },
+  "${modID}:PiShockCollar": {
+    "NAME": "Pi-Shock Collar",
+    "FLAVOR": "Taking damage now has shocking consequences.",
+    "DESCRIPTIONS": [
+      "At the start of each combat, add a #ySafeword into your hand. Character damage is now shared with the player."
+    ]
+  }
+}

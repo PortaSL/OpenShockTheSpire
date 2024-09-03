@@ -1,0 +1,9 @@
+{
+  "${modID}:PiShockAlter": {
+    "NAME": "Altered Zap Damage",
+    "DESCRIPTIONS": [
+      "If you take damage this turn, your PiShock power output will be multiplied by x",
+      "."
+    ]
+  }
+}
