@@ -2,6 +2,10 @@
 
 Source code for the PiShockTheSpire mod.
 
+> [!Note]
+> This repository is merely informative. You can download this mod directly from the Steam Workshop.
+
+
 ## Description
 
 Unofficial, fan-made, beta PiShock integration with Slay The Spire.
@@ -49,4 +53,4 @@ sharecode=17519CD8GAP
 > This is a workaround. While it should work, I'm not actively supporting this method. Use the Steam Workshop method if you can.
 - Follow [this guide](https://github.com/kiooeht/ModTheSpire/wiki#playing-mods).
 - You will also need to download the [ModTheSpire](https://steamcommunity.com/sharedfiles/filedetails/?id=1605060445), [BaseMod](https://steamcommunity.com/sharedfiles/filedetails/?id=1605833019) and [StSLib](https://steamcommunity.com/sharedfiles/filedetails/?id=1609158507) dependencies.
-- Add pishockthespire.jar to your mod file.
+- Add pishockthespire.jar to your mod file. You can download it from the [releases](https://github.com/Yahlunna/PiShockTheSpire/releases) page. There is no need to download the source code to install the mod, the .jar file will suffice.
