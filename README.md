@@ -48,7 +48,7 @@ sharecode=17519CD8GAP
 #### Step 3 - Enjoy!:
 - If your 'pishockconfig.txt' file has been properly setup, you will get rewarded with a juicy zap every time you take unwanted damage! Enjoy a more tense, electrifying StS experience!
 
-### Outside Steam workshop
+### Outside Steam Workshop
 > [!CAUTION]
 > This is a workaround. While it should work, I'm not actively supporting this method. Use the Steam Workshop method if you can.
 - Follow [this guide](https://github.com/kiooeht/ModTheSpire/wiki#playing-mods).
