@@ -10,16 +10,18 @@ Source code for the PiShockTheSpire mod.
 
 Unofficial, fan-made, beta PiShock integration with Slay The Spire.
 
-Trigger a PiShock discharge every* time you take damage while playing.
-The power output and duration of the discharge will rely on the amount of damage taken relative to your Max HP and numbers of hits taken. Dying or abandoning a run will trigger a max intensity-duration discharge.
+At the start of your run, obtain a relic that trigger a PiShock discharge every* time you take damage in game.
+The power output and duration of the discharge will rely on the amount of damage taken relative to your Max HP and numbers of hits taken.
 
-Feel free to adjust the range of intensity and time of the zaps in the configuration file for a more pleasurable experience!
+In addition to that, you will also be granted a Safeword at the start of each combat to disable zaps for one turn. Think carefully of when you should use it... and don't upgrade it, or you will find yourself with a shocking surprise between your hands ;3c
 
-In an immense act of piety, you will also be granted a Safeword at the start of each combat to disable zaps for one turn. Think carefully of when you should use it!
+Dying or abandoning a run will trigger a max intensity-duration discharge, even if you manage to disable or lose the relic. Defeat always hurts!
 
-... and don't upgrade it, or you will find yourself with a shocking surprise between your hands ;3c
+*(While in combat, damage taken during your turn will not trigger a discharge. Discharges will trigger at the end of the enemy turn unless you played a non-upgraded Safeword that turn).
 
-*(While in combat, damage taken during your turn will not trigger a discharge. Discharges will trigger at the end of the enemy turn unless you played a non upgraded Safeword that turn).
+> [!Note]
+> This mod allows you to adjust the range for the intensity and duration of the discharges in its configuration file for a more pleasurable experience!
+> Feel free to adjust it to fit your needs and preferences before playing.
 
 
 ## Setup
