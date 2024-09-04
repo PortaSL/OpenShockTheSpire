@@ -10,7 +10,7 @@ Source code for the PiShockTheSpire mod.
 
 Unofficial, fan-made, beta PiShock integration with Slay The Spire.
 
-At the start of your run, obtain a relic that trigger a PiShock discharge every* time you take damage in game.
+At the start of your run, obtain a relic that will trigger a PiShock discharge every* time you take damage in game.
 The power output and duration of the discharge will rely on the amount of damage taken relative to your Max HP and numbers of hits taken.
 
 In addition to that, you will also be granted a Safeword at the start of each combat to disable zaps for one turn. Think carefully of when you should use it... and don't upgrade it, or you will find yourself with a shocking surprise between your hands ;3c
