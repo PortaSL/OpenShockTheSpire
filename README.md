@@ -17,7 +17,7 @@ In addition to that, you will also be granted a Safeword at the start of each co
 
 Dying or abandoning a run will trigger a max intensity-duration discharge, even if you manage to disable or lose the relic. Defeat always hurts!
 
-*(While in combat, damage taken during your turn will not trigger a discharge. Discharges will trigger at the end of the enemy turn unless you played a non-upgraded Safeword that turn).
+**(While in combat, damage taken during your turn will not trigger a discharge. Discharges will trigger at the end of the enemy turn unless you played a non-upgraded Safeword that turn).*
 
 > [!Note]
 > This mod allows you to adjust the range for the intensity and duration of the discharges in its configuration file for a more pleasurable experience!
