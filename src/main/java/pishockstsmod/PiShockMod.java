@@ -44,95 +44,88 @@ public class PiShockMod implements
         EditKeywordsSubscriber,
         PostInitializeSubscriber {
     public static ModInfo info;
-    public static String modID; //Edit your pom.xml to change this
-    static { loadModInfo(); }
+    public static String modID; // Edit your pom.xml to change this
+    static {
+        loadModInfo();
+    }
     private static final String resourcesFolder = checkResourcesPath();
-    public static final Logger logger = LogManager.getLogger(modID); //Used to output to the console.
+    public static final Logger logger = LogManager.getLogger(modID); // Used to output to the console.
 
-    public static String USERNAME = "undefined";
-    public static String APIKEY = "undefined";
-    public static String SHARECODE = "undefined";
-
-    public static int MINIMUM_PIZAP_DAMAGE = 1;
-    public static int MAXIMUM_PIZAP_DAMAGE = 100;
-    public static int MINIMUM_PIZAP_LENGTH = 1;
-    public static int MAXIMUM_PIZAP_LENGTH = 8;
+    public static int MINIMUM_PIZAP_DAMAGE = 3;
+    public static int MAXIMUM_PIZAP_DAMAGE = 75;
+    public static int MINIMUM_PIZAP_LENGTH = 1000;
+    public static int MAXIMUM_PIZAP_LENGTH = 8000;
 
     public static boolean INVALID_PISHOCK_DATA = false;
 
-    //This is used to prefix the IDs of various objects like cards and relics,
-    //to avoid conflicts between different mods using the same name for things.
+    // This is used to prefix the IDs of various objects like cards and relics,
+    // to avoid conflicts between different mods using the same name for things.
     public static String makeID(String id) {
         return modID + ":" + id;
     }
 
-    //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
+    // This will be called by ModTheSpire because of the @SpireInitializer
+    // annotation at the top of the class.
     public static void initialize() {
         new PiShockMod();
     }
 
     public PiShockMod() {
-        BaseMod.subscribe(this); //This will make BaseMod trigger all the subscribers at their appropriate times.
+        BaseMod.subscribe(this); // This will make BaseMod trigger all the subscribers at their appropriate
+                                 // times.
         logger.info(modID + " subscribed to BaseMod.");
 
         File piShockConfigFile = new File("pishockconfig.txt");
-        if(piShockConfigFile.exists() && !piShockConfigFile.isDirectory()){
+        if (piShockConfigFile.exists() && !piShockConfigFile.isDirectory()) {
             logger.info("Loading preferences stored at pishockconfig.txt");
             loadConfigFile(piShockConfigFile);
-        }
-        else{
+        } else {
             logger.info("Generating pishockconfig.txt file");
             generateConfigFile(piShockConfigFile);
         }
 
-        logger.info("User {} (APIKEY: {}) is using sharecode {}.",USERNAME, APIKEY, SHARECODE);
-
-        if(Objects.equals(APIKEY, "undefined") || Objects.equals(SHARECODE, "undefined")){
-            INVALID_PISHOCK_DATA = true;
-            logger.info("Missing PiShock account data. PiShock requests have been disabled");
-        }
-        else if(MINIMUM_PIZAP_DAMAGE < 1 || MAXIMUM_PIZAP_DAMAGE > 100 || MINIMUM_PIZAP_LENGTH < 1 || MINIMUM_PIZAP_DAMAGE > MAXIMUM_PIZAP_DAMAGE || MINIMUM_PIZAP_LENGTH > MAXIMUM_PIZAP_LENGTH){
+        if (MINIMUM_PIZAP_DAMAGE < 1 || MAXIMUM_PIZAP_DAMAGE > 100 || MINIMUM_PIZAP_LENGTH < 1
+                || MINIMUM_PIZAP_DAMAGE > MAXIMUM_PIZAP_DAMAGE || MINIMUM_PIZAP_LENGTH > MAXIMUM_PIZAP_LENGTH) {
             INVALID_PISHOCK_DATA = true;
             logger.info("PiShock safety values were not set properly. PiShock requests have been disabled.");
-        }
-        else{
+        } else {
             logger.info("PiShock safety values are properly set.");
         }
 
-        logger.info("MinIntensity: {}. | MaxIntensity: {}. | Mintime: {}. | Maxtime: {}.",MINIMUM_PIZAP_DAMAGE, MAXIMUM_PIZAP_DAMAGE, MINIMUM_PIZAP_LENGTH, MAXIMUM_PIZAP_LENGTH);
+        logger.info("MinIntensity: {}. | MaxIntensity: {}. | Mintime: {}. | Maxtime: {}.", MINIMUM_PIZAP_DAMAGE,
+                MAXIMUM_PIZAP_DAMAGE, MINIMUM_PIZAP_LENGTH, MAXIMUM_PIZAP_LENGTH);
 
-        if(INVALID_PISHOCK_DATA){
-            //Resets to default to avoid any weird shit like divide per 0 exceptions.
-            MINIMUM_PIZAP_DAMAGE = 1;
-            MAXIMUM_PIZAP_DAMAGE = 100;
-            MINIMUM_PIZAP_LENGTH = 1;
-            MAXIMUM_PIZAP_LENGTH= 8;
+        if (INVALID_PISHOCK_DATA) {
+            // Resets to default to avoid any weird shit like divide per 0 exceptions.
+            MINIMUM_PIZAP_DAMAGE = 3;
+            MAXIMUM_PIZAP_DAMAGE = 75;
+            MINIMUM_PIZAP_LENGTH = 1000;
+            MAXIMUM_PIZAP_LENGTH = 8000;
         }
 
     }
 
     @Override
     public void receivePostInitialize() {
-        //This loads the image used as an icon in the in-game mods menu.
+        // This loads the image used as an icon in the in-game mods menu.
         Texture badgeTexture = TextureLoader.getTexture(imagePath("badge.png"));
-        //Set up the mod information displayed in the in-game mods menu.
-        //The information used is taken from your pom.xml file.
+        // Set up the mod information displayed in the in-game mods menu.
+        // The information used is taken from your pom.xml file.
 
-        //If you want to set up a config panel, that will be done here.
-        //The Mod Badges page has a basic example of this, but setting up config is overall a bit complex.
-        BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description, null);
+        // If you want to set up a config panel, that will be done here.
+        // The Mod Badges page has a basic example of this, but setting up config is
+        // overall a bit complex.
+        BaseMod.registerModBadge(badgeTexture, info.Name, GeneralUtils.arrToString(info.Authors), info.Description,
+                null);
     }
-
-
-
 
     /*----------Localization----------*/
 
-    //This is used to load the appropriate localization files based on language.
-    private static String getLangString()
-    {
+    // This is used to load the appropriate localization files based on language.
+    private static String getLangString() {
         return Settings.language.name().toLowerCase();
     }
+
     private static final String defaultLanguage = "eng";
 
     public static final Map<String, KeywordInfo> keywords = new HashMap<>();
@@ -140,25 +133,28 @@ public class PiShockMod implements
     @Override
     public void receiveEditStrings() {
         /*
-            First, load the default localization.
-            Then, if the current language is different, attempt to load localization for that language.
-            This results in the default localization being used for anything that might be missing.
-            The same process is used to load keywords slightly below.
-        */
-        loadLocalization(defaultLanguage); //no exception catching for default localization; you better have at least one that works.
+         * First, load the default localization.
+         * Then, if the current language is different, attempt to load localization for
+         * that language.
+         * This results in the default localization being used for anything that might
+         * be missing.
+         * The same process is used to load keywords slightly below.
+         */
+        loadLocalization(defaultLanguage); // no exception catching for default localization; you better have at least
+                                           // one that works.
         if (!defaultLanguage.equals(getLangString())) {
             try {
                 loadLocalization(getLangString());
-            }
-            catch (GdxRuntimeException e) {
+            } catch (GdxRuntimeException e) {
                 e.printStackTrace();
             }
         }
     }
 
     private void loadLocalization(String lang) {
-        //While this does load every type of localization, most of these files are just outlines so that you can see how they're formatted.
-        //Feel free to comment out/delete any that you don't end up using.
+        // While this does load every type of localization, most of these files are just
+        // outlines so that you can see how they're formatted.
+        // Feel free to comment out/delete any that you don't end up using.
         BaseMod.loadCustomStringsFile(CardStrings.class,
                 localizationPath(lang, "CardStrings.json"));
         BaseMod.loadCustomStringsFile(CharacterStrings.class,
@@ -178,10 +174,10 @@ public class PiShockMod implements
     }
 
     @Override
-    public void receiveEditKeywords()
-    {
+    public void receiveEditKeywords() {
         Gson gson = new Gson();
-        String json = Gdx.files.internal(localizationPath(defaultLanguage, "Keywords.json")).readString(String.valueOf(StandardCharsets.UTF_8));
+        String json = Gdx.files.internal(localizationPath(defaultLanguage, "Keywords.json"))
+                .readString(String.valueOf(StandardCharsets.UTF_8));
         KeywordInfo[] keywords = gson.fromJson(json, KeywordInfo[].class);
         for (KeywordInfo keyword : keywords) {
             keyword.prep();
@@ -189,17 +185,15 @@ public class PiShockMod implements
         }
 
         if (!defaultLanguage.equals(getLangString())) {
-            try
-            {
-                json = Gdx.files.internal(localizationPath(getLangString(), "Keywords.json")).readString(String.valueOf(StandardCharsets.UTF_8));
+            try {
+                json = Gdx.files.internal(localizationPath(getLangString(), "Keywords.json"))
+                        .readString(String.valueOf(StandardCharsets.UTF_8));
                 keywords = gson.fromJson(json, KeywordInfo[].class);
                 for (KeywordInfo keyword : keywords) {
                     keyword.prep();
                     registerKeyword(keyword);
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 logger.warn(modID + " does not support " + getLangString() + " keywords.");
             }
         }
@@ -207,13 +201,13 @@ public class PiShockMod implements
 
     private void registerKeyword(KeywordInfo info) {
         BaseMod.addKeyword(modID.toLowerCase(), info.PROPER_NAME, info.NAMES, info.DESCRIPTION);
-        if (!info.ID.isEmpty())
-        {
+        if (!info.ID.isEmpty()) {
             keywords.put(info.ID, info);
         }
     }
 
-    //These methods are used to generate the correct filepaths to various parts of the resources folder.
+    // These methods are used to generate the correct filepaths to various parts of
+    // the resources folder.
     public static String localizationPath(String lang, String file) {
         return resourcesFolder + "/localization/" + lang + "/" + file;
     }
@@ -221,12 +215,15 @@ public class PiShockMod implements
     public static String imagePath(String file) {
         return resourcesFolder + "/images/" + file;
     }
+
     public static String characterPath(String file) {
         return resourcesFolder + "/images/character/" + file;
     }
+
     public static String powerPath(String file) {
         return resourcesFolder + "/images/powers/" + file;
     }
+
     public static String relicPath(String file) {
         return resourcesFolder + "/images/relics/" + file;
     }
@@ -235,7 +232,8 @@ public class PiShockMod implements
      * Checks the expected resources path based on the package name.
      */
     private static String checkResourcesPath() {
-        String name = PiShockMod.class.getName(); //getPackage can be iffy with patching, so class name is used instead.
+        String name = PiShockMod.class.getName(); // getPackage can be iffy with patching, so class name is used
+                                                  // instead.
         int separator = name.indexOf('.');
         if (separator > 0)
             name = name.substring(0, separator);
@@ -246,7 +244,8 @@ public class PiShockMod implements
         }
 
         throw new RuntimeException("\n\tFailed to find resources folder; expected it to be named \"" + name + "\"." +
-                " Either make sure the folder under resources has the same name as your mod's package, or change the line\n" +
+                " Either make sure the folder under resources has the same name as your mod's package, or change the line\n"
+                +
                 "\t\"private static final String resourcesFolder = checkResourcesPath();\"\n" +
                 "\tat the top of the " + PiShockMod.class.getSimpleName() + " java file.");
     }
@@ -255,47 +254,42 @@ public class PiShockMod implements
      * This determines the mod's ID based on information stored by ModTheSpire.
      */
     private static void loadModInfo() {
-        Optional<ModInfo> infos = Arrays.stream(Loader.MODINFOS).filter((modInfo)->{
+        Optional<ModInfo> infos = Arrays.stream(Loader.MODINFOS).filter((modInfo) -> {
             AnnotationDB annotationDB = Patcher.annotationDBMap.get(modInfo.jarURL);
             if (annotationDB == null)
                 return false;
-            Set<String> initializers = annotationDB.getAnnotationIndex().getOrDefault(SpireInitializer.class.getName(), Collections.emptySet());
+            Set<String> initializers = annotationDB.getAnnotationIndex().getOrDefault(SpireInitializer.class.getName(),
+                    Collections.emptySet());
             return initializers.contains(PiShockMod.class.getName());
         }).findFirst();
         if (infos.isPresent()) {
             info = infos.get();
             modID = info.ID;
-        }
-        else {
+        } else {
             throw new RuntimeException("Failed to determine mod info/ID based on initializer.");
         }
     }
 
     @Override
     public void receiveEditCards() {
-        new AutoAdd(modID) //Loads files from this mod
-                .packageFilter(BaseCard.class) //In the same package as this class
-                .setDefaultSeen(true) //And marks them as seen in the compendium
-                .cards(); //Adds the cards
+        new AutoAdd(modID) // Loads files from this mod
+                .packageFilter(BaseCard.class) // In the same package as this class
+                .setDefaultSeen(true) // And marks them as seen in the compendium
+                .cards(); // Adds the cards
     }
 
     @Override
     public void receiveEditRelics() {
-        new AutoAdd(modID) //Loads files from this mod
-                .packageFilter(BaseRelic.class) //In the same package as this class
-                .any(BaseRelic.class, (info, relic) -> { //Run this code for any classes that extend this class
+        new AutoAdd(modID) // Loads files from this mod
+                .packageFilter(BaseRelic.class) // In the same package as this class
+                .any(BaseRelic.class, (info, relic) -> { // Run this code for any classes that extend this class
                     if (relic.pool != null)
-                        BaseMod.addRelicToCustomPool(relic, relic.pool); //Register a custom character specific relic
+                        BaseMod.addRelicToCustomPool(relic, relic.pool); // Register a custom character specific relic
                     else
-                        BaseMod.addRelic(relic, relic.relicType); //Register a shared or base game character specific relic
-
-                    //If the class is annotated with @AutoAdd.Seen, it will be marked as seen, making it visible in the relic library.
-                    //If you want all your relics to be visible by default, just remove this if statement.
-                    if (info.seen)
-                        UnlockTracker.markRelicAsSeen(relic.relicId);
+                        BaseMod.addRelic(relic, relic.relicType); // Register a shared or base game character specific
+                                                                  // relic
                 });
     }
-
 
     @Override
     public void receivePostCreateStartingRelics(AbstractPlayer.PlayerClass playerClass, ArrayList<String> relicsToAdd) {
@@ -303,48 +297,38 @@ public class PiShockMod implements
         UnlockTracker.markRelicAsSeen("pishockthespire:PiShockCollar");
     }
 
-
     @Override
     public void receivePostDeath() {
-        if(!GameOverScreen.isVictory) {
+        if (!GameOverScreen.isVictory) {
             triggerPiShockCollar(MAXIMUM_PIZAP_DAMAGE, MAXIMUM_PIZAP_LENGTH);
         }
     }
 
-    public static void generateConfigFile(File file){
+    public static void generateConfigFile(File file) {
         try {
             file.createNewFile();
             FileWriter myWriter = new FileWriter(file);
 
             myWriter.write("# Welcome to the PiShockTheSpire (beta) initialisation file!\n" +
-                            "# Please replace the undefined fields to link your PiShock collar into PiShockTheSpire.\n" +
-                            "\n" +
-                            "# Username you use to log into PiShock.com. Can be found in the Account section of the website.\n" +
-                            "username=undefined\n" +
-                            "\n" +
-                            "# API Key generated on PiShock.com Can be found in the Account section of the website.\n" +
-                            "apikey=undefined\n" +
-                            "\n" +
-                            "# Sharecode generated on PiShock.com. Limitations can be set when generating the code.\n" +
-                            "sharecode=undefined\n" +
-                            "\n" +
-                            "\n" +
-                            "# The following values can be adjusted for a more enjoyable experience.\n" +
-                            "# Please ensure the limits set here do not exced the limitations generated by your sharecode.\n" +
-                            "# Otherwise, you will not be shocked on requests exceeding your own time/intensity limits.\n" +
-                            "\n" +
-                            "# The minimum intensity for a shock output. It must be bigger (or equal) than 1.\n" +
-                            "minPower=10\n" +
-                            "\n" +
-                            "# The maximum intensity for a shock output. It must be smaller (or equal) than 100, and bigger than minPower.\n" +
-                            "maxPower=75\n" +
-                            "\n" +
-                            "# The minimum ammount of seconds a shock output can last. It  must be bigger (or equal) than 1.\n" +
-                            "minTime=1\n" +
-                            "\n" +
-                            "# The maximum ammount of seconds a shock output can last.\n" +
-                            "maxTime=7"
-            );
+                    "# Please replace the undefined fields to link your PiShock collar into PiShockTheSpire.\n" +
+                    "\n" +
+                    "# The following values can be adjusted for a more enjoyable experience.\n" +
+                    "# Please ensure the limits set here do not exced the limitations generated by your sharecode.\n" +
+                    "# Otherwise, you will not be shocked on requests exceeding your own time/intensity limits.\n" +
+                    "\n" +
+                    "# The minimum intensity for a shock output. It must be bigger (or equal) than 1.\n" +
+                    "minPower=10\n" +
+                    "\n" +
+                    "# The maximum intensity for a shock output. It must be smaller (or equal) than 100, and bigger than minPower.\n"
+                    +
+                    "maxPower=75\n" +
+                    "\n" +
+                    "# The minimum ammount of seconds a shock output can last. It  must be bigger (or equal) than 1.\n"
+                    +
+                    "minTime=1000\n" +
+                    "\n" +
+                    "# The maximum ammount of seconds a shock output can last.\n" +
+                    "maxTime=7000");
             myWriter.close();
 
         } catch (IOException e) {
@@ -352,8 +336,7 @@ public class PiShockMod implements
         }
     }
 
-
-   public static void loadConfigFile(File file){
+    public static void loadConfigFile(File file) {
 
         BufferedReader reader;
 
@@ -362,24 +345,15 @@ public class PiShockMod implements
             String line = reader.readLine();
 
             while (line != null) {
-                if(!line.isEmpty()){
-                    if(line.charAt(0)!= '#' && line.charAt(0)!= '['){
+                if (!line.isEmpty()) {
+                    if (line.charAt(0) != '#' && line.charAt(0) != '[') {
                         String[] splitline = line.split("=");
 
-                        for(String l : splitline) {
-                            l = l.replaceAll("\\s+","");
+                        for (String l : splitline) {
+                            l = l.replaceAll("\\s+", "");
                         }
 
-                        switch (splitline[0]){
-                            case "username":
-                                USERNAME = splitline[1];
-                                break;
-                            case "apikey":
-                                APIKEY = splitline[1];
-                                break;
-                            case "sharecode":
-                                SHARECODE = splitline[1];
-                                break;
+                        switch (splitline[0]) {
                             case "minPower":
                                 MINIMUM_PIZAP_DAMAGE = Integer.parseInt(splitline[1]);
                                 break;
@@ -404,43 +378,52 @@ public class PiShockMod implements
         } catch (IOException e) {
             e.printStackTrace();
         }
-   }
+    }
 
-   public static void triggerPiShockCollar(int power, int duration){
+    public static void triggerPiShockCollar(int power, int duration) {
         Thread myThread = new triggerPiShockThread(power, duration);
         myThread.start();
-   }
+    }
 
-   public static class triggerPiShockThread extends Thread {
+    public static class triggerPiShockThread extends Thread {
 
         private int powerToSend = 1;
         private int durationToSend = 1;
 
-        public triggerPiShockThread(int pwr, int dur){
+        public triggerPiShockThread(int pwr, int dur) {
             powerToSend = pwr;
             durationToSend = dur;
         }
 
-
         @Override
-        public void run(){
-
-            if(!INVALID_PISHOCK_DATA) {
+        public void run() {
+            if (!INVALID_PISHOCK_DATA) {
                 try {
 
-                    URL url = new URL("https://do.pishock.com/api/apioperate");
+                    // Prepare the URL and open the connection
+                    URL url = new URL("https://api.shocklink.net/2/shockers/control");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("POST");
+
+                    // Set Content-Type and add custom HTTP header
                     con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("OpenShockToken",
+                            "Y1etxLVXyKqtvXMNvu55MQSnVjCoV7Zfp77uqHHLqKbnLrLyQrlpwhKcRoZFYwGi"); // Add your custom
+                                                                                                 // header here
                     con.setDoOutput(true);
 
-                    String jsonInputString = "{\"Username\":\"" + USERNAME + "\",\"Name\":\"PiShockTheSpire\",\"Code\":\"" + SHARECODE + "\",\"Intensity\":\""+ powerToSend +"\",\"Duration\":\"" + durationToSend +"\",\"Apikey\":\"" + APIKEY + "\",\"Op\":\"0\"}";
+                    // Construct JSON payload
+                    String jsonInputString = "{\"shocks\":[{\"id\":\"7b1d7abc-c904-48c1-92e2-5cd2e6d3d079\",\"type\":\"vibrate\",\"intensity\":"
+                            + powerToSend + ",\"duration\":" + durationToSend
+                            + ",\"exclusive\":false}],\"customName\":\"OpenShockTheSpire\"}";
 
+                    // Send the request payload
                     try (OutputStream os = con.getOutputStream()) {
                         byte[] input = jsonInputString.getBytes("utf-8");
                         os.write(input, 0, input.length);
                     }
 
+                    // Get the response code
                     int responseCode = con.getResponseCode();
                     logger.info("Shock request sent - PiShock API response code: {}", responseCode);
 
@@ -448,8 +431,8 @@ public class PiShockMod implements
                     throw new RuntimeException(e);
                 }
             }
-
         }
-   }
+
+    }
 
 }
